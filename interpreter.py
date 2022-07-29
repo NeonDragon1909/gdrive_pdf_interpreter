@@ -3,18 +3,17 @@ from reportlab.pdfgen.canvas import Canvas
 def word_by_word(canvas, text):
 
 	for line in text[3]:
+		for section in line[1]:
+			for word in section[1]:
+				t = canvas.beginText()
 
-		for word in line[1][0][1]:
+				t.setTextRenderMode(3) 
+				t.setFont("Helvetica", float(word[0][2]-2))
+				t.setTextOrigin(float(word[0][1]), (float(text[2]) - float(word[0][0]) - (72*float(word[0][2])/96)))
+				t.setHorizScale(float(word[0][3]) / canvas.stringWidth(word[1], "Helvetica", float(word[0][2])-2) * 100)
+				t.textOut(word[1])
 
-			t = canvas.beginText()
-
-			t.setTextRenderMode(3) 
-			t.setFont("Helvetica", float(word[0][2]-2))
-			t.setTextOrigin(float(word[0][1]), (float(text[2]) - float(word[0][0]) - (72*float(word[0][2])/96)))
-			t.setHorizScale(float(word[0][3]) / canvas.stringWidth(word[1], "Helvetica", float(word[0][2])-2) * 100)
-			t.textOut(word[1])
-
-			canvas.drawText(t)
+				canvas.drawText(t)
 
 #  WIP. Could be better than drawing text word by word.
 
